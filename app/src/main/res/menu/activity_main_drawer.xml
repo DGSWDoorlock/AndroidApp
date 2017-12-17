@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_apply_coming_and_going"
+            android:icon="@drawable/ic_menu_apply"
+            android:title="@string/apply_coming_and_going" />
+        <item
+            android:id="@+id/nav_approve_coming_and_going"
+            android:icon="@drawable/ic_menu_check"
+            android:title="@string/approve_coming_and_going" />
+        <item
+            android:id="@+id/nav_coming_and_going"
+            android:icon="@drawable/ic_menu_nfc"
+            android:title="@string/coming_and_going" />
+    </group>
+
+    row_approveitem android:title="@string/setting">
+        <menu>
+         row_approveitem
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_settings_black"
+                android:title="@string/account_management" />
+        </menu>
+  row_approveitem-->
+
+</menu>

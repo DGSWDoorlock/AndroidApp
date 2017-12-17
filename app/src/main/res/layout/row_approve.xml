@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="5dp"
+    android:background="#ffffff"
+    android:weightSum="1">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="5dp"
+            android:text="ID"
+            android:textSize="17sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="5dp"
+            android:text="날짜"
+            android:textSize="17sp"
+            app:layout_constraintTop_toBottomOf="@+id/id" />
+
+        <TextView
+            android:id="@+id/startTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="5dp"
+            android:text="시간"
+            android:textSize="17sp"
+            app:layout_constraintTop_toBottomOf="@+id/day" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="~"
+            app:layout_constraintStart_toEndOf="@+id/startTime"
+            app:layout_constraintTop_toTopOf="@+id/startTime" />
+
+        <TextView
+            android:id="@+id/endTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="5dp"
+            android:text="시간"
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@+id/text"
+            app:layout_constraintTop_toBottomOf="@+id/day" />
+
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="승인"
+            app:layout_constraintEnd_toStartOf="@+id/no"
+            app:layout_constraintTop_toBottomOf="@+id/startTime" />
+
+        <Button
+            android:id="@+id/no"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="거절"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/startTime" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

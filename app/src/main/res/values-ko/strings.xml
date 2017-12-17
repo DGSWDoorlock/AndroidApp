@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_drawer_open">네비게이션 서랍 열기</string>
+    <string name="navigation_drawer_close">네비게이션 서랍 닫기</string>
+
+    <string name="action_settings">설정</string>
+
+    <string name="apply_coming_and_going">출입 신청</string>
+    <string name="approve_coming_and_going">출입 승인</string>
+    <string name="coming_and_going">출입</string>
+</resources>

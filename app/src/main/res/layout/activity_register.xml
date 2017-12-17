@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dgsw.doorlock.activity.Register">
+
+    <EditText
+        android:id="@+id/pwtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="비밀번호"
+        android:inputType="textPassword"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="107dp"
+        android:layout_marginBottom="12dp"
+        android:layout_above="@+id/nametext"
+        android:layout_alignStart="@+id/nametext" />
+
+    <EditText
+        android:id="@+id/nametext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="이름"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="157dp"
+        android:layout_marginBottom="11dp"
+        android:layout_above="@+id/comtext"
+        android:layout_alignStart="@+id/comtext" />
+
+    <EditText
+        android:id="@+id/comtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="소속"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="209dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/jobtext"
+        android:layout_alignStart="@+id/jobtext" />
+
+    <EditText
+        android:id="@+id/jobtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="직책"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="313dp"
+        android:layout_marginBottom="41dp"
+        android:layout_above="@+id/register"
+        android:layout_alignStart="@+id/register" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="215dp"
+        android:layout_height="34dp"
+        android:text="회원가입"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="388dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="69dp" />
+
+    <EditText
+        android:id="@+id/idText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_marginBottom="14dp"
+        android:layout_row="4"
+        android:ems="10"
+        android:hint="아이디"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="55dp"
+        android:layout_above="@+id/pwtext"
+        android:layout_alignStart="@+id/pwtext" />
+</RelativeLayout>
