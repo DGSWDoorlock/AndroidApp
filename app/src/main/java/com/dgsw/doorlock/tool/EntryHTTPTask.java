@@ -32,7 +32,7 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
     protected Boolean doInBackground(EntryInfo[] infos) {
         JSONObject jo = new JSONObject();
         try {
-            jo.put("seqNum", "82");
+            jo.put("seqNum", "95");
             jo.put("userId", infos[0].getId());
             jo.put("rfid", "1234123");
             jo.put("date", infos[0].getDate() + "T00:00:00+09:00");
@@ -105,5 +105,25 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
         super.onPostExecute(result);
 
     }
+    /*
+
+
+    public EntryHTTPTask(EntryInfo get) {
+        Info = get;
+    }
+
+    public boolean connect() {
+
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        //FIXME
+
+                    }
+                }
+        ).run();
+        return success;
+    }*/
 }
 

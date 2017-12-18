@@ -15,8 +15,11 @@ import android.view.ViewGroup;
 import com.dgsw.doorlock.adapter.ApproveRecyclerAdapter;
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.data.EntryInfo;
+import com.dgsw.doorlock.tool.ApproveHTTP;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 public class Approve extends Fragment {
 
@@ -36,11 +39,17 @@ public class Approve extends Fragment {
 
         recyclerView = view.findViewById(R.id.listview);
 
-        entryList.add(new EntryInfo("홍길동","8월9일","8시", "9시"));
-        entryList.add(new EntryInfo("김갑수","7월4일","11시", "12시"));
-        entryList.add(new EntryInfo("유관순","5월9일","12시", "1시"));
-        entryList.add(new EntryInfo("덜덜덜","7월10일","1시", "2시"));
+        ApproveHTTP approveHTTP = new ApproveHTTP();
+        approveHTTP.execute();
 
+        try {
+            entryList = approveHTTP.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        
         approveRecyclerAdapter = new ApproveRecyclerAdapter(entryList);
         recyclerView.setAdapter(approveRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
