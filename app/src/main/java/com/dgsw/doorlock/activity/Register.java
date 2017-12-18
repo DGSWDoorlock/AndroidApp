@@ -44,8 +44,6 @@ public class Register extends AppCompatActivity {
                     RegisterHTTP example = new RegisterHTTP(info);
                     boolean success = example.connect();
                 }
-
-
             }
         });
     }

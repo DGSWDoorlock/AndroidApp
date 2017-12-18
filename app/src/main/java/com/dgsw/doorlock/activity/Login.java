@@ -11,15 +11,16 @@ import android.widget.TextView;
 
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.tool.Preference;
+import com.dgsw.doorlock.tool.SecurityXor;
 
 public class Login extends AppCompatActivity {
-    private boolean save_check;
-    private String id = null;
-    private EditText InputID=null;
-    private EditText InputPW=null;
-    private Button LoginBtn=null;
-    private TextView RegisterBtn=null;
-    private CheckBox save_id=null;
+    private boolean isChecked;
+    private String id;
+    private EditText InputID;
+    private EditText InputPW;
+    private Button LoginBtn;
+    private TextView RegisterBtn;
+    private CheckBox isSaveID;
 
 
     @Override
@@ -30,7 +31,7 @@ public class Login extends AppCompatActivity {
         InputID = findViewById(R.id.InputID);
         InputPW = findViewById(R.id.InputPW);
         LoginBtn = findViewById(R.id.LoginBtn);
-        save_id = findViewById(R.id.save_id);
+        isSaveID = findViewById(R.id.isSaveID);
         RegisterBtn = findViewById(R.id.RegisterBtn);
 
         LoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -39,11 +40,17 @@ public class Login extends AppCompatActivity {
                 
                 Intent toMain = new Intent(Login.this, Main.class);
                 Login.this.startActivity(toMain);
+                finish();
             }
         });
 
-        if(new Preference(getApplicationContext()).getBoolean("SAVE_ID",false))
-            InputID.setText(new Preference(getApplicationContext()).getString("ID",null));
+        isSaveID.setChecked(new Preference(getApplicationContext()).getBoolean("isSaveID", false));
+
+        if(new Preference(getApplicationContext()).getBoolean("isSaveID",false)) {
+            isChecked = true;
+            SecurityXor securityXor = new SecurityXor();
+            InputID.setText(securityXor.getSecurityXor(new Preference(getApplicationContext()).getString("ID", null), 777));
+        }
 
         RegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,12 +60,10 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        save_id.setChecked(new Preference(getApplicationContext()).getBoolean("SAVE_ID", false));
-
-        save_id.setOnClickListener(new View.OnClickListener() {
+        isSaveID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save_check = save_id.isChecked();
+                isChecked = isSaveID.isChecked();
             }
         });
     }
@@ -66,10 +71,11 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        new Preference(getApplicationContext()).putBoolean("SAVE_ID", save_check);
-        if (save_check) {
+        new Preference(getApplicationContext()).putBoolean("isSaveID", isChecked);
+        if (isChecked) {
             id=InputID.getText().toString();
-            new Preference(getApplicationContext()).putString("ID", id);
+            SecurityXor securityXor = new SecurityXor();
+            new Preference(getApplicationContext()).putString("ID", securityXor.getSecurityXor(id, 777));
         }
     }
 }
