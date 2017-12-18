@@ -26,6 +26,9 @@ import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.fragment.Approve;
 import com.dgsw.doorlock.fragment.EntryApply;
 import com.dgsw.doorlock.fragment.NFC;
+import com.kabouzeid.appthemehelper.ATH;
+import com.kabouzeid.appthemehelper.ThemeStore;
+import com.kabouzeid.appthemehelper.util.TintHelper;
 
 public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,14 +44,14 @@ public class Main extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackground(getDrawable(R.drawable.side_nav_bar));
+        toolbar.setBackgroundColor(ThemeStore.primaryColor(this));
         setSupportActionBar(toolbar);
 
         entryApply = new EntryApply();
         approve = new Approve();
         nfc = new NFC();
 
-        if (savedInstanceState==null) {
+        if (savedInstanceState == null) {
             transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.content_fragment_layout, entryApply);
             transaction.commit();
@@ -72,6 +75,11 @@ public class Main extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
+
+        ATH.setTaskDescriptionColor(this, ThemeStore.primaryColor(this));
+        ATH.setStatusbarColor(this, ThemeStore.statusBarColor(this));
+        ATH.setLightStatusbarAuto(this, ThemeStore.statusBarColor(this));
+        ATH.setNavigationbarColor(this, ThemeStore.navigationBarColor(this));
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -133,7 +141,8 @@ public class Main extends AppCompatActivity
         if (id == R.id.nav_apply_coming_and_going) {
             transaction.replace(R.id.content_fragment_layout, entryApply);
         } else if (id == R.id.nav_approve_coming_and_going) {
-            transaction.replace(R.id.content_fragment_layout, approve);        } else if (id == R.id.nav_coming_and_going) {
+            transaction.replace(R.id.content_fragment_layout, approve);
+        } else if (id == R.id.nav_coming_and_going) {
             transaction.replace(R.id.content_fragment_layout, nfc);
         }
 
@@ -149,6 +158,7 @@ public class Main extends AppCompatActivity
         TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)) {
+                //필요한 이유
                 Toast.makeText(this, "Read Phone state", Toast.LENGTH_SHORT).show();
             }
 
@@ -156,7 +166,7 @@ public class Main extends AppCompatActivity
                     PERMISSIONS_REQUEST_READ_PHONE_STATE);
             return null;
         } else {
-            Toast.makeText(this, "Already", Toast.LENGTH_SHORT).show();
+            //이미 허용 될 경우
             return mgr != null ? mgr.getLine1Number() : null;
         }
     }
