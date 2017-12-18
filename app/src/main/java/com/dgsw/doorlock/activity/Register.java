@@ -19,17 +19,13 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final EditText idtext = (EditText) findViewById(R.id.idText);
-        final EditText pwtext = (EditText) findViewById(R.id.pwtext);
-        final EditText nametext = (EditText) findViewById(R.id.nametext);
-        final EditText comtext = (EditText) findViewById(R.id.comtext);
-        final EditText jobtext = (EditText) findViewById(R.id.jobtext);
+        final EditText idtext = findViewById(R.id.idText);
+        final EditText pwtext = findViewById(R.id.pwtext);
+        final EditText nametext = findViewById(R.id.nametext);
+        final EditText comtext = findViewById(R.id.comtext);
+        final EditText jobtext = findViewById(R.id.jobtext);
 
-        Button register = (Button) findViewById(R.id.register);
-
-
-
-
+        Button register = findViewById(R.id.register);
 
         TelephonyManager mgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         //FIXME !!

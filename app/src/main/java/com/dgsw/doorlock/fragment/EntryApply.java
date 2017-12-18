@@ -1,12 +1,11 @@
 package com.dgsw.doorlock.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import android.widget.TextView;
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.data.EntryInfo;
 import com.dgsw.doorlock.tool.EntryHTTPTask;
-import com.dgsw.doorlock.tool.GetRFID;
+import com.dgsw.doorlock.tool.GetRFIDTask;
 import com.dgsw.doorlock.tool.Preference;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -48,7 +47,6 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
         dateText = view.findViewById(R.id.dateText);
         timeStartText = view.findViewById(R.id.timeStartText);
         timeEndText = view.findViewById(R.id.timeEndText);
-
 
         dateText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,9 +111,10 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
                 try {
                     if (httpTask.get()) {
                         Snackbar.make(view, "신청 성공", Snackbar.LENGTH_SHORT).show();
-                        GetRFID getRFID = new GetRFID(info.getId());
-                        String RFID =  getRFID.connect();
-                        Log.d("RESULT", RFID);
+                        SystemClock.sleep(1000);
+                        GetRFIDTask getRFIDTask = new GetRFIDTask(info.getId());
+                        getRFIDTask.execute();
+                        String RFID = getRFIDTask.get();
                         new Preference(getContext()).putString("RFID", RFID);
                         idText.setText("");
                         dateText.setText("날짜 선택");

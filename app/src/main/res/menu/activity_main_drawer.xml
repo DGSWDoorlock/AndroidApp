@@ -17,13 +17,4 @@
             android:title="@string/coming_and_going" />
     </group>
 
-    row_approveitem android:title="@string/setting">
-        <menu>
-         row_approveitem
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_settings_black"
-                android:title="@string/account_management" />
-        </menu>
-  row_approveitem-->
-
 </menu>
