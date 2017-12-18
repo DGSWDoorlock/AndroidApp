@@ -14,7 +14,6 @@ import com.dgsw.doorlock.tool.Preference;
 import com.dgsw.doorlock.tool.SecurityXor;
 
 public class Login extends AppCompatActivity {
-    private boolean isChecked;
     private String id;
     private EditText InputID;
     private EditText InputPW;
@@ -47,7 +46,6 @@ public class Login extends AppCompatActivity {
         isSaveID.setChecked(new Preference(getApplicationContext()).getBoolean("isSaveID", false));
 
         if(new Preference(getApplicationContext()).getBoolean("isSaveID",false)) {
-            isChecked = true;
             SecurityXor securityXor = new SecurityXor();
             InputID.setText(securityXor.getSecurityXor(new Preference(getApplicationContext()).getString("ID", null), 777));
         }
@@ -63,7 +61,7 @@ public class Login extends AppCompatActivity {
         isSaveID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isChecked = isSaveID.isChecked();
+                new Preference(getApplicationContext()).putBoolean("isSaveID", isSaveID.isChecked());
             }
         });
     }
@@ -71,8 +69,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        new Preference(getApplicationContext()).putBoolean("isSaveID", isChecked);
-        if (isChecked) {
+        if (new Preference(getApplicationContext()).getBoolean("isSaveID", false)) {
             id=InputID.getText().toString();
             SecurityXor securityXor = new SecurityXor();
             new Preference(getApplicationContext()).putString("ID", securityXor.getSecurityXor(id, 777));
