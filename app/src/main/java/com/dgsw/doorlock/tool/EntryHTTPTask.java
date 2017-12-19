@@ -1,8 +1,6 @@
 package com.dgsw.doorlock.tool;
 
-import android.annotation.SuppressLint;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.util.Log;
 
 import com.dgsw.doorlock.data.EntryInfo;
@@ -32,7 +30,6 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
     protected Boolean doInBackground(EntryInfo[] infos) {
         JSONObject jo = new JSONObject();
         try {
-            jo.put("seqNum", "95");
             jo.put("userId", infos[0].getId());
             jo.put("rfid", "1234123");
             jo.put("date", infos[0].getDate() + "T00:00:00+09:00");
@@ -74,7 +71,6 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
             try {
                 br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             } catch (Exception e) {
-                e.printStackTrace();
                 br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
             publishProgress(70);
@@ -84,6 +80,7 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
             while ((buf = br.readLine()) != null) {
                 Text.append(buf);
             }
+
             publishProgress(90);
             br.close();
             success = true;

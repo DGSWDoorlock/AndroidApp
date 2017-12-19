@@ -6,18 +6,11 @@ import android.util.Log;
 import com.dgsw.doorlock.data.EntryInfo;
 
 import org.json.JSONException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -72,18 +65,20 @@ public class ApproveHTTP extends AsyncTask<EntryInfo, Integer, ArrayList<EntryIn
                 Log.d("People" + i, "in_Time : " + jo.get("inTime").toString());
                 Log.d("People" + i, "out_Time : " + jo.get("outTime").toString());
                 Log.d("People" + i, "name : " + jo.get("userId").toString());
-                StringBuilder date = new StringBuilder(jo.get("date").toString());
-                date.delete(10, date.length());
+                if("0".equals(jo.get("state").toString())) {
+                    StringBuilder date = new StringBuilder(jo.get("date").toString());
+                    date.delete(10, date.length());
 
-                StringBuilder in_Time = new StringBuilder(jo.get("inTime").toString());
-                in_Time.delete(0, 11);
-                in_Time.delete(8, in_Time.length());
+                    StringBuilder in_Time = new StringBuilder(jo.get("inTime").toString());
+                    in_Time.delete(0, 11);
+                    in_Time.delete(8, in_Time.length());
 
-                StringBuilder out_Time = new StringBuilder(jo.get("outTime").toString());
-                out_Time.delete(0, 11);
-                out_Time.delete(8, out_Time.length());
+                    StringBuilder out_Time = new StringBuilder(jo.get("outTime").toString());
+                    out_Time.delete(0, 11);
+                    out_Time.delete(8, out_Time.length());
 
-                entryInfos.add(new EntryInfo(jo.get("userId").toString(), date.toString(), in_Time.toString(), out_Time.toString()));
+                    entryInfos.add(new EntryInfo(jo.get("userId").toString(), date.toString(), in_Time.toString(), out_Time.toString()));
+                }
             }
 
         } catch (IOException e) {
