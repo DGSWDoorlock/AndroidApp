@@ -5,7 +5,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_apply_coming_and_going"
-            android:icon="@drawable/ic_menu_apply"
+            android:icon="@drawable/ic_apply_coming_and_going"
             android:title="@string/apply_coming_and_going" />
         <item
             android:id="@+id/nav_approve_coming_and_going"

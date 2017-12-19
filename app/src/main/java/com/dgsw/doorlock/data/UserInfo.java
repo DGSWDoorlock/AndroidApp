@@ -14,7 +14,8 @@ public class UserInfo {
     private String belong;
     private String position;
     private String phoneNum;
-    public UserInfo(String name, String id, String pw, String belong, String position, String phoneNum){
+
+    public UserInfo(String name, String id, String pw, String belong, String position, String phoneNum) {
         this.name = name;
         this.id = id;
         this.pw = pw;
@@ -22,6 +23,7 @@ public class UserInfo {
         this.position = position;
         this.phoneNum = phoneNum;
     }
+
     public String getName() {
         return name;
     }

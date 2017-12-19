@@ -33,7 +33,6 @@ import com.kabouzeid.appthemehelper.util.TintHelper;
 public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final int PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     public static final String IP_ADDRESS = "192.168.0.6";
 
     Fragment entryApply, approve, nfc;
@@ -71,22 +70,6 @@ public class Main extends AppCompatActivity
         ATH.setStatusbarColor(this, ThemeStore.statusBarColor(this));
         ATH.setLightStatusbarAuto(this, ThemeStore.statusBarColor(this));
         ATH.setNavigationbarColor(this, ThemeStore.navigationBarColor(this));
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_READ_PHONE_STATE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //TODO
-                    Toast.makeText(getApplicationContext(), "Granted", Toast.LENGTH_SHORT).show();
-                } else {
-                    //TODO
-                    Toast.makeText(getApplicationContext(), "Denied", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
     }
 
     @Override
@@ -142,23 +125,5 @@ public class Main extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @SuppressLint("HardwareIds")
-    public String getPhoneNumber() {
-        TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)) {
-                //필요한 이유
-                Toast.makeText(this, "Read Phone state", Toast.LENGTH_SHORT).show();
-            }
-
-            requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE},
-                    PERMISSIONS_REQUEST_READ_PHONE_STATE);
-            return null;
-        } else {
-            //이미 허용 될 경우
-            return mgr != null ? mgr.getLine1Number() : null;
-        }
     }
 }

@@ -49,7 +49,7 @@ public class Approve extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        
+
         approveRecyclerAdapter = new ApproveRecyclerAdapter(entryList);
         recyclerView.setAdapter(approveRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -36,7 +36,7 @@ public class Login extends AppCompatActivity {
         LoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
                 Intent toMain = new Intent(Login.this, Main.class);
                 Login.this.startActivity(toMain);
                 finish();
@@ -45,7 +45,7 @@ public class Login extends AppCompatActivity {
 
         isSaveID.setChecked(new Preference(getApplicationContext()).getBoolean("isSaveID", false));
 
-        if(new Preference(getApplicationContext()).getBoolean("isSaveID",false)) {
+        if (new Preference(getApplicationContext()).getBoolean("isSaveID", false)) {
             SecurityXor securityXor = new SecurityXor();
             InputID.setText(securityXor.getSecurityXor(new Preference(getApplicationContext()).getString("ID", null), 777));
         }
@@ -70,7 +70,7 @@ public class Login extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if (new Preference(getApplicationContext()).getBoolean("isSaveID", false)) {
-            id=InputID.getText().toString();
+            id = InputID.getText().toString();
             SecurityXor securityXor = new SecurityXor();
             new Preference(getApplicationContext()).putString("ID", securityXor.getSecurityXor(id, 777));
         }

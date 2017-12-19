@@ -42,15 +42,15 @@ public class GetRFIDTask extends AsyncTask<EntryInfo, Integer, String> {
     @Override
     protected String doInBackground(EntryInfo[] infos) {
         try {
-            URL Url = new URL(" http://"+ IP_ADDRESS +":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo/"+ URLEncoder.encode(id, "UTF-8"));//받을 주소 + ID
+            URL Url = new URL(" http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo/" + URLEncoder.encode(id, "UTF-8"));//받을 주소 + ID
             HttpURLConnection conn = (HttpURLConnection) Url.openConnection();//연결해줄 Connection
             conn.setRequestMethod("GET");//POST 형식
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoInput(true);//입력 가능
 
-            int Res=conn.getResponseCode();
-            if(Res!=HttpURLConnection.HTTP_OK)
-                Log.e("RESPONSE_CODE",Res+"");
+            int Res = conn.getResponseCode();
+            if (Res != HttpURLConnection.HTTP_OK)
+                Log.e("RESPONSE_CODE", Res + "");
 
             BufferedReader br;
             try {
@@ -59,7 +59,7 @@ public class GetRFIDTask extends AsyncTask<EntryInfo, Integer, String> {
                 e.printStackTrace();
                 br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
-            String line=br.readLine();
+            String line = br.readLine();
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(line);
             RFID = jsonObject.get("rfid").toString();

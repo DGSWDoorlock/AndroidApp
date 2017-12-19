@@ -25,7 +25,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.Register"> </activity>
-        <activity android:name=".activity.Main"> </activity>
+        <activity
+            android:name=".activity.Register"
+            android:label="@string/register"/>
+        <activity android:name=".activity.Main"/>
     </application>
 </manifest>

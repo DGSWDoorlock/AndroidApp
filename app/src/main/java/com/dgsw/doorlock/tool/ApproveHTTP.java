@@ -27,9 +27,10 @@ import static com.dgsw.doorlock.activity.Main.IP_ADDRESS;
  * Created by kimji on 2017-12-17.
  */
 
-public class ApproveHTTP  extends AsyncTask<EntryInfo, Integer,  ArrayList<EntryInfo>> {
+public class ApproveHTTP extends AsyncTask<EntryInfo, Integer, ArrayList<EntryInfo>> {
 
     ArrayList<EntryInfo> entryInfos = new ArrayList<>();
+
     //EntryInfo[] entry = {};
     @Override
     protected void onPreExecute() {
@@ -40,7 +41,7 @@ public class ApproveHTTP  extends AsyncTask<EntryInfo, Integer,  ArrayList<Entry
     protected ArrayList<EntryInfo> doInBackground(EntryInfo[] infos) {
         publishProgress(20);
         try {
-            URL Url = new URL("http://"+IP_ADDRESS+":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo");//보낼 주소
+            URL Url = new URL("http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo");//보낼 주소
             HttpURLConnection conn = (HttpURLConnection) Url.openConnection();//연결해줄 Connection
             publishProgress(25);
             conn.setRequestMethod("GET");//POST 형식
@@ -62,30 +63,30 @@ public class ApproveHTTP  extends AsyncTask<EntryInfo, Integer,  ArrayList<Entry
                 br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
             publishProgress(70);
-            String buf=br.readLine();
-            org.json.JSONObject jo=null;
-            org.json.JSONArray ja=new org.json.JSONArray(buf);
-            for(int i=0;i<ja.length();i++){
-                jo=ja.getJSONObject(i);
-                Log.d("People"+i,"date : "+jo.get("date").toString());
-                Log.d("People"+i,"in_Time : "+jo.get("inTime").toString());
-                Log.d("People"+i,"out_Time : "+jo.get("outTime").toString());
-                Log.d("People"+i,"name : "+jo.get("userId").toString());
+            String buf = br.readLine();
+            org.json.JSONObject jo = null;
+            org.json.JSONArray ja = new org.json.JSONArray(buf);
+            for (int i = 0; i < ja.length(); i++) {
+                jo = ja.getJSONObject(i);
+                Log.d("People" + i, "date : " + jo.get("date").toString());
+                Log.d("People" + i, "in_Time : " + jo.get("inTime").toString());
+                Log.d("People" + i, "out_Time : " + jo.get("outTime").toString());
+                Log.d("People" + i, "name : " + jo.get("userId").toString());
                 StringBuilder date = new StringBuilder(jo.get("date").toString());
-                date.delete(10,date.length());
+                date.delete(10, date.length());
 
                 StringBuilder in_Time = new StringBuilder(jo.get("inTime").toString());
-                in_Time.delete(0,11);
-                in_Time.delete(8,in_Time.length());
+                in_Time.delete(0, 11);
+                in_Time.delete(8, in_Time.length());
 
                 StringBuilder out_Time = new StringBuilder(jo.get("outTime").toString());
-                out_Time.delete(0,11);
-                out_Time.delete(8,out_Time.length());
+                out_Time.delete(0, 11);
+                out_Time.delete(8, out_Time.length());
 
                 entryInfos.add(new EntryInfo(jo.get("userId").toString(), date.toString(), in_Time.toString(), out_Time.toString()));
             }
 
-        } catch (IOException  e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();

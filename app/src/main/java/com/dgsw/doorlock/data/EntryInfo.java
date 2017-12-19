@@ -12,17 +12,18 @@ public class EntryInfo {
     private String clockStart;
     private String clockEnd;
 
-    public EntryInfo(String id, String date, String clockStart, String clockEnd){
+    public EntryInfo(String id, String date, String clockStart, String clockEnd) {
         this.id = id;
         this.date = date;
         this.clockStart = clockStart;
         this.clockEnd = clockEnd;
     }
 
-    public String getId(){
+    public String getId() {
         return this.id;
     }
-    public String getDate(){
+
+    public String getDate() {
         return this.date;
     }
 
