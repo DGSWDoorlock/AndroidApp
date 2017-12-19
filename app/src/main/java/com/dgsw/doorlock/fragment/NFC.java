@@ -30,11 +30,13 @@ public class NFC extends Fragment implements NfcAdapter.CreateNdefMessageCallbac
 
         NfcAdapter mAdapter = NfcAdapter.getDefaultAdapter(getActivity());
         if (mAdapter == null) {
-            Snackbar.make(view, "이 장치가 NFC를 지원하지 않습니다.", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getActivity().findViewById(R.id.content_fragment_layout), "이 장치가 NFC를 지원하지 않습니다.", Snackbar.LENGTH_SHORT).show();
+            return view;
         }
 
         if (!mAdapter.isEnabled()) {
-            Snackbar.make(view, "NFC가 꺼저 있습니다. NFC를 켜주세요.", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getActivity().findViewById(R.id.content_fragment_layout), "NFC가 꺼저 있습니다. NFC를 켜주세요.", Snackbar.LENGTH_SHORT).show();
+            return view;
         }
 
         mAdapter.setNdefPushMessageCallback(this, getActivity());
