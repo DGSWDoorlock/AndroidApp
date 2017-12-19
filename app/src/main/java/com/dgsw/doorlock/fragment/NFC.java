@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.tool.Preference;
@@ -28,13 +30,21 @@ public class NFC extends Fragment implements NfcAdapter.CreateNdefMessageCallbac
         getActivity().setTitle("NFC");
         View view = inflater.inflate(R.layout.fragment_nfc, container, false);
 
+        ImageView imageView = view.findViewById(R.id.image_status);
+        TextView textView = view.findViewById(R.id.entry_status);
+
         NfcAdapter mAdapter = NfcAdapter.getDefaultAdapter(getActivity());
         if (mAdapter == null) {
+            imageView.setImageResource(R.drawable.ic_nfc_close);
+            textView.setText("지원하지 않음");
+            textView.setTextColor(getResources().getColor(R.color.no));
             Snackbar.make(getActivity().findViewById(R.id.content_fragment_layout), "이 장치가 NFC를 지원하지 않습니다.", Snackbar.LENGTH_SHORT).show();
             return view;
         }
 
         if (!mAdapter.isEnabled()) {
+            imageView.setImageResource(R.drawable.ic_nfc_disable);
+            textView.setText("");
             Snackbar.make(getActivity().findViewById(R.id.content_fragment_layout), "NFC가 꺼저 있습니다. NFC를 켜주세요.", Snackbar.LENGTH_SHORT).show();
             return view;
         }
