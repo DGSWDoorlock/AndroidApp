@@ -20,7 +20,7 @@ import static com.dgsw.doorlock.activity.Main.IP_ADDRESS;
  * Created by kimji on 2017-12-17.
  */
 
-public class ApproveHTTP extends AsyncTask<EntryInfo, Integer, ArrayList<EntryInfo>> {
+public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<EntryInfo>> {
 
     ArrayList<EntryInfo> entryInfos = new ArrayList<>();
 

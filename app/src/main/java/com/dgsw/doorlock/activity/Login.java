@@ -19,6 +19,8 @@ import com.dgsw.doorlock.tool.task.LoginTask;
 import java.util.concurrent.ExecutionException;
 
 public class Login extends AppCompatActivity {
+    public final static boolean isDEBUG = true;
+
     private EditText InputID;
     private EditText InputPW;
     private Button LoginBtn;
@@ -39,29 +41,35 @@ public class Login extends AppCompatActivity {
         LoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isCorrectIDPW = false;
-                String name = "", id = "";
+                if (!isDEBUG) {
+                    boolean isCorrectIDPW = false;
+                    String name = "", id = "";
                     LoginTask loginTask = new LoginTask();
-                loginTask.execute(new LoginData(InputID.getText().toString(), InputPW.getText().toString()));
-                try {
-                    Object[] result=loginTask.get();
-                    isCorrectIDPW = (Boolean) result[0];
-                    name = (String) result[1];
-                    id = (String) result[2];
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
+                    loginTask.execute(new LoginData(InputID.getText().toString(), InputPW.getText().toString()));
+                    try {
+                        Object[] result = loginTask.get();
+                        isCorrectIDPW = (Boolean) result[0];
+                        name = (String) result[1];
+                        id = (String) result[2];
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
 
 
-                if (isCorrectIDPW) {
+                    if (isCorrectIDPW) {
+                        Intent intent = new Intent(Login.this, Main.class);
+                        intent.putExtra("name", name);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                        finish();//액티비티 종료
+                    } else {
+                        //TODO
+                        Snackbar.make(findViewById(R.id.layout), "실패", Snackbar.LENGTH_SHORT).show();
+                    }
+                } else {
                     Intent intent = new Intent(Login.this, Main.class);
-                    intent.putExtra("name", name);
-                    intent.putExtra("id", id);
                     startActivity(intent);
                     finish();
-                } else {
-                    //TODO
-                    Snackbar.make(findViewById(R.id.layout), "실패", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });

@@ -14,14 +14,14 @@ import android.view.ViewGroup;
 import com.dgsw.doorlock.adapter.ApproveRecyclerAdapter;
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.data.EntryInfo;
-import com.dgsw.doorlock.tool.task.ApproveHTTP;
+import com.dgsw.doorlock.tool.task.ApproveHTTPTask;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class Approve extends Fragment {
+import static com.dgsw.doorlock.activity.Login.isDEBUG;
 
-    public final static boolean isDebug = true;
+public class Approve extends Fragment {
 
     private RecyclerView recyclerView;
     private ApproveRecyclerAdapter approveRecyclerAdapter;
@@ -38,12 +38,12 @@ public class Approve extends Fragment {
         View view = inflater.inflate(R.layout.activity_approve, container, false);
 
         recyclerView = view.findViewById(R.id.listview);
-        if (!isDebug) {
-            ApproveHTTP approveHTTP = new ApproveHTTP();
-            approveHTTP.execute();
+        if (!isDEBUG) { //FIXME
+            ApproveHTTPTask approveHTTPTask = new ApproveHTTPTask();
+            approveHTTPTask.execute();
 
             try {
-                entryList = approveHTTP.get();
+                entryList = approveHTTPTask.get();
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }

@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:tint="@android:color/white"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:background="@color/ok"
         android:animateLayoutChanges="true"
         app:srcCompat="@drawable/ic_check" />
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:tint="@android:color/white"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:background="@color/no"
         android:animateLayoutChanges="true"
         app:srcCompat="@drawable/ic_close" />

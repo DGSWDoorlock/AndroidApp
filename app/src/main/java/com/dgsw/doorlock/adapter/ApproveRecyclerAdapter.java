@@ -27,6 +27,8 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
 
     private ArrayList<EntryInfo> entryInfos;
 
+    public Animator animatorOK, animatorNO;
+
     public ApproveRecyclerAdapter(ArrayList<EntryInfo> entryInfos) {
         this.entryInfos = entryInfos;
     }
@@ -41,7 +43,6 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
     @Override
     public void onBindViewHolder(final ApproveViewHolder viewHolder, final int position) {
         final EntryInfo item = entryInfos.get(position);
-        final Animator[] anim = new Animator[2];
         viewHolder.cardView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -54,8 +55,8 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
                 int startRadius = 0;
                 int endRadius = (int) Math.hypot(viewHolder.cardView.getWidth(), viewHolder.cardView.getHeight());
 
-                anim[0] = ViewAnimationUtils.createCircularReveal(viewHolder.okImageView, x, y, startRadius, endRadius);
-                anim[1] = ViewAnimationUtils.createCircularReveal(viewHolder.noImageView, x, y, startRadius, endRadius);
+                animatorOK = ViewAnimationUtils.createCircularReveal(viewHolder.okImageView, x, y, startRadius, endRadius);
+                animatorNO = ViewAnimationUtils.createCircularReveal(viewHolder.noImageView, x, y, startRadius, endRadius);
             }
         });
 
@@ -69,9 +70,7 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
                 viewHolder.okImageView.setVisibility(View.VISIBLE);
                 EntryHTTPTask httpTask = new EntryHTTPTask(1);
                 httpTask.execute(item);
-                anim[0].start();
-                Snackbar.make(view, item.getId() + "의 신청이 승인 됨", Snackbar.LENGTH_SHORT).show();
-                anim[0].addListener(new Animator.AnimatorListener() {
+                animatorOK.addListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) {
 
@@ -81,6 +80,7 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
                     public void onAnimationEnd(Animator animator) {
                         entryInfos.remove(viewHolder.getAdapterPosition()); //재생성 방지를 위한 값 삭제
                         notifyItemRemoved(viewHolder.getAdapterPosition()); //데이터 삭제
+                        viewHolder.okImageView.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
@@ -93,6 +93,8 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
 
                     }
                 });
+                viewHolder.okImageView.post(new OKAniRun());
+                Snackbar.make(view, item.getId() + "의 신청이 승인 됨", Snackbar.LENGTH_SHORT).show();
             }
         });
         viewHolder.no.setOnClickListener(new View.OnClickListener() {
@@ -101,9 +103,7 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
                 viewHolder.noImageView.setVisibility(View.VISIBLE);
                 EntryHTTPTask httpTask = new EntryHTTPTask(-1);
                 httpTask.execute(item);
-                anim[1].start();
-                Snackbar.make(view, item.getId() + "의 신청이 거절 됨", Snackbar.LENGTH_SHORT).show();
-                anim[1].addListener(new Animator.AnimatorListener() {
+                animatorNO.addListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) {
 
@@ -113,6 +113,7 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
                     public void onAnimationEnd(Animator animator) {
                         entryInfos.remove(viewHolder.getAdapterPosition()); //재생성 방지를 위한 값 삭제
                         notifyItemRemoved(viewHolder.getAdapterPosition()); //데이터 삭제
+                        viewHolder.noImageView.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
@@ -125,6 +126,8 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
 
                     }
                 });
+                viewHolder.noImageView.post(new NOAniRun());
+                Snackbar.make(view, item.getId() + "의 신청이 거절 됨", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
@@ -132,5 +135,17 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
     @Override
     public int getItemCount() {
         return entryInfos.size();
+    }
+    class OKAniRun implements Runnable {
+        @Override
+        public void run() {
+            animatorOK.start();
+        }
+    }
+    class NOAniRun implements Runnable {
+        @Override
+        public void run() {
+            animatorNO.start();
+        }
     }
 }
