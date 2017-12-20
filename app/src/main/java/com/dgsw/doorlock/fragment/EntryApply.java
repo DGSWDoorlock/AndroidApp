@@ -105,7 +105,7 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
 
                 EntryInfo info = new EntryInfo(id, date, startTime, endTime);
 
-                EntryHTTPTask httpTask = new EntryHTTPTask();
+                EntryHTTPTask httpTask = new EntryHTTPTask(0);
                 httpTask.execute(info);
 
                 try {

@@ -50,11 +50,11 @@ public class Main extends AppCompatActivity
         approve = new Approve();
         nfc = new NFC();
 
-        if (savedInstanceState == null) {
-            transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.content_fragment_layout, entryApply);
-            transaction.commit();
-        }
+//        if (savedInstanceState == null) {
+//            transaction = getSupportFragmentManager().beginTransaction();
+//            transaction.add(R.id.content_fragment_layout, entryApply);
+//            transaction.commit();
+//        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

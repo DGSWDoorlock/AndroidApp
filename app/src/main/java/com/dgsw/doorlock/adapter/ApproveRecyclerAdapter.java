@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.data.EntryInfo;
+import com.dgsw.doorlock.tool.EntryHTTPTask;
 
 import java.util.ArrayList;
 
@@ -66,6 +67,8 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
             @Override
             public void onClick(View view) {
                 viewHolder.okImageView.setVisibility(View.VISIBLE);
+                EntryHTTPTask httpTask = new EntryHTTPTask(1);
+                httpTask.execute(item);
                 anim[0].start();
                 Snackbar.make(view, item.getId() + "의 신청이 승인 됨", Snackbar.LENGTH_SHORT).show();
                 anim[0].addListener(new Animator.AnimatorListener() {
@@ -96,6 +99,8 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
             @Override
             public void onClick(View view) {
                 viewHolder.noImageView.setVisibility(View.VISIBLE);
+                EntryHTTPTask httpTask = new EntryHTTPTask(-1);
+                httpTask.execute(item);
                 anim[1].start();
                 Snackbar.make(view, item.getId() + "의 신청이 거절 됨", Snackbar.LENGTH_SHORT).show();
                 anim[1].addListener(new Animator.AnimatorListener() {
