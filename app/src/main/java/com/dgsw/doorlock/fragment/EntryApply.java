@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.data.EntryInfo;
-import com.dgsw.doorlock.tool.EntryHTTPTask;
-import com.dgsw.doorlock.tool.GetRFIDTask;
+import com.dgsw.doorlock.tool.task.EntryHTTPTask;
+import com.dgsw.doorlock.tool.task.GetRFIDTask;
 import com.dgsw.doorlock.tool.Preference;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;

@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.data.EntryInfo;
-import com.dgsw.doorlock.tool.EntryHTTPTask;
+import com.dgsw.doorlock.tool.task.EntryHTTPTask;
 
 import java.util.ArrayList;
 

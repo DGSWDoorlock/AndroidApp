@@ -1,6 +1,5 @@
 package com.dgsw.doorlock.fragment;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,13 +14,14 @@ import android.view.ViewGroup;
 import com.dgsw.doorlock.adapter.ApproveRecyclerAdapter;
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.data.EntryInfo;
-import com.dgsw.doorlock.tool.ApproveHTTP;
+import com.dgsw.doorlock.tool.task.ApproveHTTP;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class Approve extends Fragment {
+
+    public final static boolean isDebug = true;
 
     private RecyclerView recyclerView;
     private ApproveRecyclerAdapter approveRecyclerAdapter;
@@ -38,18 +38,24 @@ public class Approve extends Fragment {
         View view = inflater.inflate(R.layout.activity_approve, container, false);
 
         recyclerView = view.findViewById(R.id.listview);
+        if (!isDebug) {
+            ApproveHTTP approveHTTP = new ApproveHTTP();
+            approveHTTP.execute();
 
-        ApproveHTTP approveHTTP = new ApproveHTTP();
-        approveHTTP.execute();
-
-        try {
-            entryList = approveHTTP.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            try {
+                entryList = approveHTTP.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        } else {
+            entryList.add(new EntryInfo("AA", "            ", "            ", "            "));
+            entryList.add(new EntryInfo("BB", "            ", "            ", "            "));
+            entryList.add(new EntryInfo("CC", "            ", "            ", "            "));
+            entryList.add(new EntryInfo("DD", "            ", "            ", "            "));
+            entryList.add(new EntryInfo("EE", "            ", "            ", "            "));
+            entryList.add(new EntryInfo("FF", "            ", "            ", "            "));
+            entryList.add(new EntryInfo("GG", "            ", "            ", "            "));
         }
-
         approveRecyclerAdapter = new ApproveRecyclerAdapter(entryList);
         recyclerView.setAdapter(approveRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

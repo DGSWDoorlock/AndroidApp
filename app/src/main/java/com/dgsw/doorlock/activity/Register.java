@@ -7,19 +7,19 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.data.UserInfo;
-import com.dgsw.doorlock.tool.RegisterHTTPTask;
+import com.dgsw.doorlock.tool.task.RegisterHTTPTask;
 
 import java.util.concurrent.ExecutionException;
 
@@ -43,6 +43,7 @@ public class Register extends AppCompatActivity {
 
         //FIXME !!
         final String phonenum = getPhoneNumber();
+        if (phonenum.equals("need_permission")) Snackbar.make(findViewById(R.id.layout), "전화 번호를 가저오기 위한 권한이 필요합니다.", Snackbar.LENGTH_SHORT).show();
         register.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +58,7 @@ public class Register extends AppCompatActivity {
                     RegisterHTTPTask task = new RegisterHTTPTask(info);
                     task.execute();
                     try {
+                        //TODO TASK
                         boolean success = task.get();
                     } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
@@ -73,6 +75,7 @@ public class Register extends AppCompatActivity {
             case PERMISSIONS_REQUEST_READ_PHONE_STATE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //TODO
+                    recreate();
                     //Toast.makeText(getApplicationContext(), "Granted", Toast.LENGTH_SHORT).show();
                 } else {
                     //TODO
@@ -93,7 +96,7 @@ public class Register extends AppCompatActivity {
 
             requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE},
                     PERMISSIONS_REQUEST_READ_PHONE_STATE);
-            return null;
+            return "need_permission";
         } else {
             //이미 허용 될 경우
             return mgr != null ? mgr.getLine1Number() : null;

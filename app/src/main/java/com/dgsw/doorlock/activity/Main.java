@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.fragment.Approve;
 import com.dgsw.doorlock.fragment.EntryApply;
+import com.dgsw.doorlock.fragment.MainFrag;
 import com.dgsw.doorlock.fragment.NFC;
 import com.kabouzeid.appthemehelper.ATH;
 import com.kabouzeid.appthemehelper.ThemeStore;
@@ -35,7 +36,7 @@ public class Main extends AppCompatActivity
 
     public static final String IP_ADDRESS = "192.168.0.6";
 
-    Fragment entryApply, approve, nfc;
+    Fragment main, entryApply, approve, nfc;
     FragmentTransaction transaction;
 
     @Override
@@ -46,15 +47,16 @@ public class Main extends AppCompatActivity
         toolbar.setBackgroundColor(ThemeStore.primaryColor(this));
         setSupportActionBar(toolbar);
 
+        main = new MainFrag();
         entryApply = new EntryApply();
         approve = new Approve();
         nfc = new NFC();
 
-//        if (savedInstanceState == null) {
-//            transaction = getSupportFragmentManager().beginTransaction();
-//            transaction.add(R.id.content_fragment_layout, entryApply);
-//            transaction.commit();
-//        }
+        if (savedInstanceState == null) {
+            transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.content_fragment_layout, main);
+            transaction.commit();
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -64,7 +66,6 @@ public class Main extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
 
         ATH.setTaskDescriptionColor(this, ThemeStore.primaryColor(this));
         ATH.setStatusbarColor(this, ThemeStore.statusBarColor(this));
