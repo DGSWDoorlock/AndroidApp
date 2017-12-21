@@ -38,7 +38,7 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getActivity().setTitle("EntryApply");
+        getActivity().setTitle("출입 신청");
         View view = inflater.inflate(R.layout.fragment_entry_apply, container, false);
 
         final EditText idText = view.findViewById(R.id.idText);

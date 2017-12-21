@@ -53,7 +53,7 @@ public class Register extends AppCompatActivity {
                 final String com = comtext.getText().toString();
                 final String job = jobtext.getText().toString();
 
-                if (!(name.isEmpty() && id.isEmpty() && pw.isEmpty() && com.isEmpty() && job.isEmpty())) {
+                if (!(name.isEmpty() && id.isEmpty() && pw.isEmpty() && com.isEmpty() && job.isEmpty() && !phonenum.equals("need_permission"))) {
                     info = new UserInfo(name, id, pw, com, job, phonenum);
                     RegisterHTTPTask task = new RegisterHTTPTask(info);
                     task.execute();

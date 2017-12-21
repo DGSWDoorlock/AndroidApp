@@ -1,4 +1,4 @@
-package com.dgsw.doorlock.adapter;
+package com.dgsw.doorlock.viewholder;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,10 +14,10 @@ import com.dgsw.doorlock.R;
  */
 
 public class ApproveViewHolder extends RecyclerView.ViewHolder {
-    CardView cardView;
-    ImageView okImageView, noImageView;
-    TextView id, day, startTime, endTime;
-    Button ok, no;
+    public CardView cardView;
+    public ImageView okImageView, noImageView;
+    public TextView id, day, startTime, endTime;
+    public Button ok, no;
 
     public ApproveViewHolder(View itemView) {
         super(itemView);

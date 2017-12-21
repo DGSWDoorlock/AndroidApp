@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.dgsw.doorlock.data.EntryInfo;
+import com.dgsw.doorlock.data.NFCInfo;
 
 import org.json.JSONException;
 
@@ -20,9 +21,15 @@ import static com.dgsw.doorlock.activity.Main.IP_ADDRESS;
  * Created by kimji on 2017-12-17.
  */
 
-public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<EntryInfo>> {
+public class NFCListHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<NFCInfo>> {
 
-    ArrayList<EntryInfo> entryInfos = new ArrayList<>();
+    private String id;
+
+    public NFCListHTTPTask(String id) {
+        this.id = id;
+    }
+
+    private ArrayList<NFCInfo> nfcInfos = new ArrayList<>();
 
     @Override
     protected void onPreExecute() {
@@ -30,7 +37,7 @@ public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<Ent
     }
 
     @Override
-    protected ArrayList<EntryInfo> doInBackground(EntryInfo[] infos) {
+    protected ArrayList<NFCInfo> doInBackground(EntryInfo[] infos) {
         publishProgress(20);
         try {
             URL Url = new URL("http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo");//보낼 주소
@@ -56,15 +63,11 @@ public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<Ent
             }
             publishProgress(70);
             String buf = br.readLine();
-            org.json.JSONObject jo = null;
+            org.json.JSONObject jo;
             org.json.JSONArray ja = new org.json.JSONArray(buf);
             for (int i = 0; i < ja.length(); i++) {
                 jo = ja.getJSONObject(i);
-                Log.d("People" + i, "date : " + jo.get("date").toString());
-                Log.d("People" + i, "in_Time : " + jo.get("inTime").toString());
-                Log.d("People" + i, "out_Time : " + jo.get("outTime").toString());
-                Log.d("People" + i, "name : " + jo.get("userId").toString());
-                if("0".equals(jo.get("state").toString())) {
+                if("1".equals(jo.get("state").toString())&&id.equals(jo.get("userId").toString())) {
                     StringBuilder date = new StringBuilder(jo.get("date").toString());
                     date.delete(10, date.length());
 
@@ -76,16 +79,14 @@ public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<Ent
                     out_Time.delete(0, 11);
                     out_Time.delete(8, out_Time.length());
 
-                    entryInfos.add(new EntryInfo(jo.get("userId").toString(), date.toString(), in_Time.toString(), out_Time.toString()));
+                    nfcInfos.add(new NFCInfo(date.toString(), in_Time.toString(), out_Time.toString(), jo.get("rfid").toString()));
                 }
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        return entryInfos;
+        return nfcInfos;
     }
 
     @Override
@@ -94,7 +95,7 @@ public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<Ent
     }
 
     @Override
-    protected void onPostExecute(ArrayList<EntryInfo> result) {
+    protected void onPostExecute(ArrayList<NFCInfo> result) {
         super.onPostExecute(result);
 
     }

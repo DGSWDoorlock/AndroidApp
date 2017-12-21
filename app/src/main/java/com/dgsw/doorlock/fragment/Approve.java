@@ -34,7 +34,7 @@ public class Approve extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getActivity().setTitle("Approve");
+        getActivity().setTitle("출입 승인");
         View view = inflater.inflate(R.layout.activity_approve, container, false);
 
         recyclerView = view.findViewById(R.id.listview);

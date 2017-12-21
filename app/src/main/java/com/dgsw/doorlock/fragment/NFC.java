@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ public class NFC extends Fragment implements NfcAdapter.CreateNdefMessageCallbac
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("NFC");
         View view = inflater.inflate(R.layout.fragment_nfc, container, false);
+
+        String RFID = new Preference(getActivity()).getString("RFID", "00000000");
 
         ImageView imageView = view.findViewById(R.id.image_status);
         TextView textView = view.findViewById(R.id.entry_status);
@@ -60,6 +63,7 @@ public class NFC extends Fragment implements NfcAdapter.CreateNdefMessageCallbac
     @Override
     public NdefMessage createNdefMessage(NfcEvent nfcEvent) {
         String RFID = new Preference(getActivity()).getString("RFID", "00000000"); //shared_pref.xml
+        Log.d("TAG", RFID + " !AA!");
         NdefRecord ndefRecord = NdefRecord.createMime("text/plain", RFID.getBytes());
         return new NdefMessage(ndefRecord);
     }

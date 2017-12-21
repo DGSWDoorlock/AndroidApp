@@ -19,7 +19,7 @@ import com.dgsw.doorlock.tool.task.LoginTask;
 import java.util.concurrent.ExecutionException;
 
 public class Login extends AppCompatActivity {
-    public final static boolean isDEBUG = true;
+    public final static boolean isDEBUG = false;
 
     private EditText InputID;
     private EditText InputPW;
