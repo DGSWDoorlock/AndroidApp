@@ -61,7 +61,7 @@ public class LootOperate extends AsyncTask<EntryInfo, Integer,Boolean> {
                 String line = br.readLine();
                 JSONParser jsonParser = new JSONParser();
                 JSONObject jsonObject = (JSONObject) jsonParser.parse(line);
-                if(jsonObject.get("operate").toString().equals("1")){
+                if(jsonObject.get("admin").toString().equals("1")){
                     Operate = true;
                 }else{
                     Operate = false;
