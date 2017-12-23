@@ -12,6 +12,10 @@
             android:icon="@drawable/ic_menu_check"
             android:title="@string/approve_coming_and_going" />
         <item
+            android:id="@+id/nav_look_up_coming_and_going"
+            android:icon="@drawable/ic_menu_list"
+            android:title="@string/list_coming_and_going" />
+        <item
             android:id="@+id/nav_coming_and_going"
             android:icon="@drawable/ic_menu_nfc"
             android:title="@string/coming_and_going" />

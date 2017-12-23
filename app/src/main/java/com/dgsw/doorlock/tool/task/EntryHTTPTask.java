@@ -21,9 +21,10 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
 
     int state;
 
-    public EntryHTTPTask(int state){
+    public EntryHTTPTask(int state) {
         this.state = state;
     }
+
     private boolean success = true;
 
     @Override
@@ -34,12 +35,13 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
     @Override
     protected Boolean doInBackground(EntryInfo[] infos) {
         JSONObject jo = new JSONObject();
+        Log.d("ATAGA", infos[0].getClockStart() + " " + infos[0].getClockEnd());
         try {
             jo.put("userId", infos[0].getId());
-            jo.put("name",infos[0].getId());
+            jo.put("name", infos[0].getName());
             jo.put("date", infos[0].getDate() + "T00:00:00+09:00");
-            jo.put("inTime", infos[0].getClockStart() + ":00+09:00");
-            jo.put("outTime", infos[0].getClockEnd() + ":00+09:00");
+            jo.put("inTime", infos[0].getDate() + "T" + infos[0].getClockStart() + "+09:00");
+            jo.put("outTime", infos[0].getDate() + "T" + infos[0].getClockEnd() + "+09:00");
             jo.put("state", state);
             publishProgress(10);
         } catch (JSONException e) {

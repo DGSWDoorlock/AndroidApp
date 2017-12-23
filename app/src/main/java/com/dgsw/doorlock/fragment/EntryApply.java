@@ -1,5 +1,6 @@
 package com.dgsw.doorlock.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -28,8 +29,17 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
 
     TextView dateText, timeStartText, timeEndText;
     String date;
-    String startTime, endTime;
+    String startTime, endTime, id, name;
     TimePickerDialog startTimePickerDialog, endTimePickerDialog;
+
+    public EntryApply() {
+    }
+
+    @SuppressLint("ValidFragment")
+    public EntryApply(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,10 +48,9 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getActivity().setTitle("출입 신청");
+        getActivity().setTitle(R.string.entry_apply);
         View view = inflater.inflate(R.layout.fragment_entry_apply, container, false);
 
-        final EditText idText = view.findViewById(R.id.idText);
         final Calendar calendar = Calendar.getInstance();
 
         dateText = view.findViewById(R.id.dateText);
@@ -73,6 +82,7 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
                         EntryApply.this,
                         now.get(Calendar.HOUR_OF_DAY),
                         now.get(Calendar.MINUTE),
+                        now.get(Calendar.SECOND),
                         false
                 );
                 startTimePickerDialog.setVersion(TimePickerDialog.Version.VERSION_2);
@@ -88,6 +98,7 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
                         EntryApply.this,
                         now.get(Calendar.HOUR_OF_DAY) + 1,
                         now.get(Calendar.MINUTE),
+                        now.get(Calendar.SECOND),
                         false
                 );
                 endTimePickerDialog.setVersion(TimePickerDialog.Version.VERSION_2);
@@ -100,10 +111,9 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
         button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (idText.getText().toString() == null) return;
-                final String id = idText.getText().toString();
+                if (id == null) return;
 
-                EntryInfo info = new EntryInfo(id, date, startTime, endTime);
+                EntryInfo info = new EntryInfo(id, name, date, startTime, endTime);
 
                 EntryHTTPTask httpTask = new EntryHTTPTask(0);
                 httpTask.execute(info);
@@ -116,7 +126,6 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
                         getRFIDTask.execute();
                         String RFID = getRFIDTask.get();
                         new Preference(getContext()).putString("RFID", RFID);
-                        idText.setText("");
                         dateText.setText("날짜 선택");
                         timeStartText.setText("시작 시간 선택");
                         timeEndText.setText("끝 시간 선택");
@@ -127,7 +136,6 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
-                //11월 25일 -> 11.25
             }
         });
         return view;
@@ -135,20 +143,18 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+        date = year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth);
         dateText.setText(date);
     }
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        //String time = "You picked the following time: "+hourOfDay+"h"+minute+"m"+second;
         if (view == startTimePickerDialog) {
-            startTime = String.format("%sT%s:%s", date, String.format("%02d", hourOfDay), String.format("%02d", minute));
+            startTime = String.format("%s:%s:%s", String.format("%02d", hourOfDay), String.format("%02d", minute), String.format("%02d", second));
             timeStartText.setText(String.format("%s:%s", String.format("%02d", hourOfDay), String.format("%02d", minute)));
         } else if (view == endTimePickerDialog) {
-            endTime = date + "T" + String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute);
+            endTime = String.format("%s:%s:%s", String.format("%02d", hourOfDay), String.format("%02d", minute), String.format("%02d", second));
             timeEndText.setText(String.format("%s:%s", String.format("%02d", hourOfDay), String.format("%02d", minute)));
         }
-        //timeTextView.setText(time);
     }
 }

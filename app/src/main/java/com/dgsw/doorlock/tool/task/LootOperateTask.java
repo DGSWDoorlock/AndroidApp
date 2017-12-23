@@ -1,4 +1,4 @@
-package com.dgsw.doorlock.tool;
+package com.dgsw.doorlock.tool.task;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -24,7 +24,7 @@ import static com.dgsw.doorlock.activity.Main.IP_ADDRESS;
  * Created by Jin on 2017-12-22.
  */
 
-public class LootOperate extends AsyncTask<EntryInfo, Integer,Boolean> {
+public class LootOperateTask extends AsyncTask<EntryInfo, Integer, Boolean> {
         Boolean Operate;
 
         @Override
@@ -66,9 +66,7 @@ public class LootOperate extends AsyncTask<EntryInfo, Integer,Boolean> {
                 }else{
                     Operate = false;
                 }
-            } catch (IOException e) {
-            e.printStackTrace();
-            } catch (ParseException e) {
+            } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
 

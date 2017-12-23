@@ -9,18 +9,21 @@ import java.util.Map;
 
 public class EntryInfo {
     private String id;
+    private String name;
     private String date;
     private String clockStart;
     private String clockEnd;
     private String state;
-    public EntryInfo(String id, String date, String clockStart, String clockEnd) {
+    public EntryInfo(String id, String name, String date, String clockStart, String clockEnd) {
         this.id = id;
+        this.name = name;
         this.date = date;
         this.clockStart = clockStart;
         this.clockEnd = clockEnd;
     }
-    public EntryInfo(String id,String date,String clockStart, String clockEnd, String state){
+    public EntryInfo(String id, String name, String date,String clockStart, String clockEnd, String state){
         this.id = id;
+        this.name = name;
         this.date = date;
         this.clockStart = clockStart;
         this.clockEnd = clockEnd;
@@ -29,6 +32,10 @@ public class EntryInfo {
 
     public String getId() {
         return this.id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getDate() {

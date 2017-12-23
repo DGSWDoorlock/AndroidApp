@@ -30,4 +30,8 @@
     <string name="sel_date">날짜 선택</string>
     <string name="entry_apply">출입 신청</string>
     <string name="sel_end_time">끝 시간 선택</string>
+    <string name="approve_ok">승인됨</string>
+    <string name="approve_no">거부됨</string>
+    <string name="not_approved">확인되지 않음</string>
+    <string name="list_coming_and_going">기록</string>
 </resources>

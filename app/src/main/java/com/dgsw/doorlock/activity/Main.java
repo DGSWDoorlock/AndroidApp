@@ -35,6 +35,7 @@ import com.dgsw.doorlock.adapter.NFCListRecyclerAdapter;
 import com.dgsw.doorlock.data.NFCInfo;
 import com.dgsw.doorlock.fragment.Approve;
 import com.dgsw.doorlock.fragment.EntryApply;
+import com.dgsw.doorlock.fragment.LookUp;
 import com.dgsw.doorlock.fragment.MainFrag;
 import com.dgsw.doorlock.fragment.NFC;
 import com.dgsw.doorlock.tool.Preference;
@@ -56,7 +57,7 @@ public class Main extends AppCompatActivity
 
     private AlertDialog nfcDialog;
 
-    Fragment main, entryApply, approve, nfc;
+    Fragment main, entryApply, approve, list, nfc;
     FragmentTransaction transaction;
 
     @Override
@@ -72,8 +73,9 @@ public class Main extends AppCompatActivity
         NAME = intent.getStringExtra("name");
 
         main = new MainFrag();
-        entryApply = new EntryApply();
+        entryApply = new EntryApply(ID, NAME);
         approve = new Approve();
+        list = new LookUp();
         nfc = new NFC();
 
         if (savedInstanceState == null) {
@@ -141,10 +143,11 @@ public class Main extends AppCompatActivity
             transaction.replace(R.id.content_fragment_layout, entryApply);
         } else if (id == R.id.nav_approve_coming_and_going) {
             transaction.replace(R.id.content_fragment_layout, approve);
+        } else if (id == R.id.nav_look_up_coming_and_going) {
+            transaction.replace(R.id.content_fragment_layout, list);
         } else if (id == R.id.nav_coming_and_going) {
-            //TODO DIALOG
             LayoutInflater factory = LayoutInflater.from(this);
-            View view = factory.inflate(R.layout.dialog_nfc, null);
+            @SuppressLint("InflateParams") View view = factory.inflate(R.layout.dialog_nfc, null);
 
             RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
             NFCListRecyclerAdapter nfcListRecyclerAdapter;

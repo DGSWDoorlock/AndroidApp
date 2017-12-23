@@ -63,7 +63,7 @@ public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<Ent
                 Log.d("People" + i, "date : " + jo.get("date").toString());
                 Log.d("People" + i, "in_Time : " + jo.get("inTime").toString());
                 Log.d("People" + i, "out_Time : " + jo.get("outTime").toString());
-                Log.d("People" + i, "name : " + jo.get("userId").toString());
+                Log.d("People" + i, "name : " + jo.get("name").toString());
                 if("0".equals(jo.get("state").toString())) {
                     StringBuilder date = new StringBuilder(jo.get("date").toString());
                     date.delete(10, date.length());
@@ -76,7 +76,7 @@ public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<Ent
                     out_Time.delete(0, 11);
                     out_Time.delete(8, out_Time.length());
 
-                    entryInfos.add(new EntryInfo(jo.get("userId").toString(), date.toString(), in_Time.toString(), out_Time.toString()));
+                    entryInfos.add(new EntryInfo(jo.get("userId").toString(), jo.get("name").toString(), date.toString(), in_Time.toString(), out_Time.toString()));
                 }
             }
 

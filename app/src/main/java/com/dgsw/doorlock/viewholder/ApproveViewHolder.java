@@ -16,7 +16,7 @@ import com.dgsw.doorlock.R;
 public class ApproveViewHolder extends RecyclerView.ViewHolder {
     public CardView cardView;
     public ImageView okImageView, noImageView;
-    public TextView id, day, startTime, endTime;
+    public TextView name, day, startTime, endTime;
     public Button ok, no;
 
     public ApproveViewHolder(View itemView) {
@@ -24,7 +24,7 @@ public class ApproveViewHolder extends RecyclerView.ViewHolder {
         cardView = itemView.findViewById(R.id.cardView);
         okImageView = itemView.findViewById(R.id.checkView);
         noImageView = itemView.findViewById(R.id.closeView);
-        id = itemView.findViewById(R.id.id);
+        name = itemView.findViewById(R.id.name);
         day = itemView.findViewById(R.id.day);
         startTime = itemView.findViewById(R.id.startTime);
         endTime = itemView.findViewById(R.id.endTime);

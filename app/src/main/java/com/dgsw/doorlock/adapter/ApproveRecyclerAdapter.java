@@ -41,7 +41,7 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
     public void onBindViewHolder(final ApproveViewHolder viewHolder, final int position) {
         final EntryInfo item = entryInfos.get(position);
 
-        viewHolder.id.setText(item.getId());
+        viewHolder.name.setText(item.getName());
         viewHolder.day.setText(item.getDate());
         viewHolder.startTime.setText(item.getClockStart());
         viewHolder.endTime.setText(item.getClockEnd());

@@ -19,13 +19,9 @@ import com.dgsw.doorlock.tool.task.ApproveHTTPTask;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import static com.dgsw.doorlock.activity.Login.isDEBUG;
-
 public class Approve extends Fragment {
 
-    private RecyclerView recyclerView;
-    private ApproveRecyclerAdapter approveRecyclerAdapter;
-    private ArrayList<EntryInfo> entryList = new ArrayList<>();
+    private ArrayList<EntryInfo> entryInfos = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,28 +31,18 @@ public class Approve extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("출입 승인");
-        View view = inflater.inflate(R.layout.activity_approve, container, false);
+        View view = inflater.inflate(R.layout.fragment_approve, container, false);
 
-        recyclerView = view.findViewById(R.id.listview);
-        if (!isDEBUG) { //FIXME
-            ApproveHTTPTask approveHTTPTask = new ApproveHTTPTask();
-            approveHTTPTask.execute();
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+        ApproveHTTPTask approveHTTPTask = new ApproveHTTPTask();
+        approveHTTPTask.execute();
 
-            try {
-                entryList = approveHTTPTask.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        } else {
-            entryList.add(new EntryInfo("AA", "            ", "            ", "            "));
-            entryList.add(new EntryInfo("BB", "            ", "            ", "            "));
-            entryList.add(new EntryInfo("CC", "            ", "            ", "            "));
-            entryList.add(new EntryInfo("DD", "            ", "            ", "            "));
-            entryList.add(new EntryInfo("EE", "            ", "            ", "            "));
-            entryList.add(new EntryInfo("FF", "            ", "            ", "            "));
-            entryList.add(new EntryInfo("GG", "            ", "            ", "            "));
+        try {
+            entryInfos = approveHTTPTask.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
-        approveRecyclerAdapter = new ApproveRecyclerAdapter(entryList);
+        ApproveRecyclerAdapter approveRecyclerAdapter = new ApproveRecyclerAdapter(entryInfos);
         recyclerView.setAdapter(approveRecyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());

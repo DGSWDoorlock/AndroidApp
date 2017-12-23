@@ -19,7 +19,6 @@ import com.dgsw.doorlock.tool.task.LoginTask;
 import java.util.concurrent.ExecutionException;
 
 public class Login extends AppCompatActivity {
-    public final static boolean isDEBUG = false;
 
     private EditText InputID;
     private EditText InputPW;
@@ -41,7 +40,6 @@ public class Login extends AppCompatActivity {
         LoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isDEBUG) {
                     boolean isCorrectIDPW = false;
                     String name = "", id = "";
                     LoginTask loginTask = new LoginTask();
@@ -55,7 +53,6 @@ public class Login extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-
                     if (isCorrectIDPW) {
                         Intent intent = new Intent(Login.this, Main.class);
                         intent.putExtra("name", name);
@@ -63,14 +60,8 @@ public class Login extends AppCompatActivity {
                         startActivity(intent);
                         finish();//액티비티 종료
                     } else {
-                        //TODO
-                        Snackbar.make(findViewById(R.id.layout), "실패", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(R.id.layout), "로그인 실패", Snackbar.LENGTH_SHORT).show();
                     }
-                } else {
-                    Intent intent = new Intent(Login.this, Main.class);
-                    startActivity(intent);
-                    finish();
-                }
             }
         });
 
