@@ -6,6 +6,10 @@ import android.util.Log;
 import com.dgsw.doorlock.data.EntryInfo;
 
 import org.json.JSONException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +25,7 @@ import static com.dgsw.doorlock.activity.Main.IP_ADDRESS;
  * Created by kimji on 2017-12-17.
  */
 
-public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<EntryInfo>> {
+public class GetEntryHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<EntryInfo>> {
 
     private ArrayList<EntryInfo> entryInfos = new ArrayList<>();
 
@@ -34,7 +38,7 @@ public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<Ent
     protected ArrayList<EntryInfo> doInBackground(EntryInfo[] infos) {
         publishProgress(20);
         try {
-            URL Url = new URL("http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo");//보낼 주소
+            URL Url = new URL("http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo/"+ ID);//보낼 주소
             HttpURLConnection conn = (HttpURLConnection) Url.openConnection();//연결해줄 Connection
             publishProgress(25);
             conn.setRequestMethod("GET");//POST 형식
@@ -57,10 +61,9 @@ public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<Ent
             }
             publishProgress(70);
             String buf = br.readLine();
-            org.json.JSONObject jo;
-            org.json.JSONArray ja = new org.json.JSONArray(buf);
-            for (int i = 0; i < ja.length(); i++) {
-                jo = ja.getJSONObject(i);
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jo = (JSONObject) jsonParser.parse(buf);
+            for (int i = 0; i < jo.size(); i++) {
                 StringBuilder date = new StringBuilder(jo.get("date").toString());
                 date.delete(10, date.length());
 
@@ -75,7 +78,7 @@ public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<Ent
                 entryInfos.add(new EntryInfo(jo.get("userId").toString(), jo.get("name").toString(), date.toString(), in_Time.toString(), out_Time.toString(), jo.get("state").toString()));
             }
 
-        } catch (IOException | JSONException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         return entryInfos;

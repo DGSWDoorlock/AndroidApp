@@ -1,34 +1,26 @@
 package com.dgsw.doorlock.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.TelephonyManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.dgsw.doorlock.R;
 import com.dgsw.doorlock.adapter.NFCListRecyclerAdapter;
@@ -39,6 +31,7 @@ import com.dgsw.doorlock.fragment.LookUp;
 import com.dgsw.doorlock.fragment.MainFrag;
 import com.dgsw.doorlock.fragment.NFC;
 import com.dgsw.doorlock.tool.Preference;
+import com.dgsw.doorlock.tool.task.LootOperateTask;
 import com.dgsw.doorlock.tool.task.NFCListHTTPTask;
 import com.kabouzeid.appthemehelper.ATH;
 import com.kabouzeid.appthemehelper.ThemeStore;
@@ -53,8 +46,6 @@ public class Main extends AppCompatActivity
 
     public static String ID, NAME;
 
-    private NavigationView navigationView;
-
     private AlertDialog nfcDialog;
 
     Fragment main, entryApply, approve, list, nfc;
@@ -68,11 +59,35 @@ public class Main extends AppCompatActivity
         toolbar.setBackgroundColor(ThemeStore.primaryColor(this));
         setSupportActionBar(toolbar);
 
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         Intent intent = getIntent();
         ID = intent.getStringExtra("id");
         NAME = intent.getStringExtra("name");
 
+        TextView textView = navigationView.getHeaderView(0).findViewById(R.id.welecome_text);
+        textView.setText(String.format(getString(R.string.welecome_text), NAME));
+
         main = new MainFrag();
+
+        LootOperateTask lootOperateTask = new LootOperateTask();
+        lootOperateTask.execute();
+        boolean Operate;
+        try {
+            Operate = lootOperateTask.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            Operate = false;
+        }
+        navigationView.getMenu().getItem(1).setVisible(Operate);
+
         entryApply = new EntryApply(ID, NAME);
         approve = new Approve();
         list = new LookUp();
@@ -84,14 +99,6 @@ public class Main extends AppCompatActivity
             transaction.commit();
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         ATH.setTaskDescriptionColor(this, ThemeStore.primaryColor(this));
         ATH.setStatusbarColor(this, ThemeStore.statusBarColor(this));
@@ -109,12 +116,12 @@ public class Main extends AppCompatActivity
         }
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -134,7 +141,6 @@ public class Main extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view row_approve clicks here.
         int id = item.getItemId();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

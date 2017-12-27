@@ -36,11 +36,15 @@ public class Approve extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         ApproveHTTPTask approveHTTPTask = new ApproveHTTPTask();
         approveHTTPTask.execute();
-
         try {
             entryInfos = approveHTTPTask.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
+        }
+        for (int i = 0; i < entryInfos.size(); i++) {
+            if (!entryInfos.get(i).getState().equals("0")) {
+                entryInfos.remove(i);
+            }
         }
         ApproveRecyclerAdapter approveRecyclerAdapter = new ApproveRecyclerAdapter(entryInfos);
         recyclerView.setAdapter(approveRecyclerAdapter);

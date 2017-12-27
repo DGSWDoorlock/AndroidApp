@@ -24,63 +24,63 @@ import static com.dgsw.doorlock.activity.Main.IP_ADDRESS;
  * Created by Jin on 2017-12-22.
  */
 
-public class LootOperateTask extends AsyncTask<EntryInfo, Integer, Boolean> {
-        Boolean Operate;
+public class LootOperateTask extends AsyncTask<Void, Integer, Boolean> {
 
-        @Override
-        protected void onPreExecute() {
-        super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(EntryInfo[] infos) {
-            publishProgress(20);
-            try {
-                URL Url = new URL("http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo/"+ID);
-                HttpURLConnection conn = (HttpURLConnection) Url.openConnection();//연결해줄 Connection
-                publishProgress(25);
-                conn.setRequestMethod("GET");//POST 형식
-                conn.setRequestProperty("Accept", "application/json");
-                conn.setDoInput(true);//입력 가능
-
-                publishProgress(50);
-
-                int Res = conn.getResponseCode();
-                if (Res != HttpURLConnection.HTTP_NO_CONTENT)
-                    Log.e("RESPONSE_CODE", Res + "");
-
-                BufferedReader br;
-                publishProgress(60);
-                try {
-                    br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-                }
-                publishProgress(70);
-                String line = br.readLine();
-                JSONParser jsonParser = new JSONParser();
-                JSONObject jsonObject = (JSONObject) jsonParser.parse(line);
-                if(jsonObject.get("admin").toString().equals("1")){
-                    Operate = true;
-                }else{
-                    Operate = false;
-                }
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }
-
-            return Operate;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... params) {
-
-        }
+    private Boolean Operate;
 
     @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
 
+    @Override
+    protected Boolean doInBackground(Void[] voids) {
+        publishProgress(20);
+        try {
+            URL Url = new URL("http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.usertable/" + ID);
+            HttpURLConnection conn = (HttpURLConnection) Url.openConnection();//연결해줄 Connection
+            publishProgress(25);
+            conn.setRequestMethod("GET");//POST 형식
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoInput(true);//입력 가능
+
+            publishProgress(50);
+
+            int Res = conn.getResponseCode();
+            if (Res != HttpURLConnection.HTTP_OK)
+                Log.e("RESPONSE_CODE", Res + "");
+
+            BufferedReader br;
+            publishProgress(60);
+            try {
+                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } catch (Exception e) {
+                e.printStackTrace();
+                br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
+            publishProgress(70);
+            String line = br.readLine();
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(line);
+            if (jsonObject.get("admin").toString().equals("1")) {
+                Operate = true;
+            } else {
+                Operate = false;
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
         }
+
+        return Operate;
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... params) {
+
+    }
+
+    @Override
+    protected void onPostExecute(Boolean result) {
+        super.onPostExecute(result);
+    }
 }

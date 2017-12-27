@@ -70,11 +70,6 @@ public class RegisterHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
                 e.printStackTrace();
                 br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
-            String buf;
-            StringBuilder Text = new StringBuilder();
-            while ((buf = br.readLine()) != null) {
-                Text.append(buf);
-            }
             br.close();
             success = true;
         } catch (IOException e) {

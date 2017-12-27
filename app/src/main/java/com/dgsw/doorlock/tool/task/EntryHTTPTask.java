@@ -19,13 +19,11 @@ import static com.dgsw.doorlock.activity.Main.IP_ADDRESS;
 
 public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
 
-    int state;
+    private int state;
 
     public EntryHTTPTask(int state) {
         this.state = state;
     }
-
-    private boolean success = true;
 
     @Override
     protected void onPreExecute() {
@@ -42,7 +40,7 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
             jo.put("date", infos[0].getDate() + "T00:00:00+09:00");
             jo.put("inTime", infos[0].getDate() + "T" + infos[0].getClockStart() + "+09:00");
             jo.put("outTime", infos[0].getDate() + "T" + infos[0].getClockEnd() + "+09:00");
-            jo.put("state", state);
+            if(state != 0) jo.put("state", Integer.toString(state));
             publishProgress(10);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -51,6 +49,7 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
         System.out.println(jo.toString());
         String Json = jo.toString();
         publishProgress(20);
+        boolean success = true;
         try {
             URL Url = new URL(" http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo ");//보낼 주소
             HttpURLConnection conn = (HttpURLConnection) Url.openConnection();//연결해줄 Connection
@@ -77,18 +76,12 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
             BufferedReader br;
             publishProgress(60);
             try {
+                publishProgress(70);
                 br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             } catch (Exception e) {
+                publishProgress(70);
                 br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
-            publishProgress(70);
-            String buf;
-            StringBuilder Text = new StringBuilder();
-            publishProgress(80);
-            while ((buf = br.readLine()) != null) {
-                Text.append(buf);
-            }
-
             publishProgress(90);
             br.close();
             success = true;

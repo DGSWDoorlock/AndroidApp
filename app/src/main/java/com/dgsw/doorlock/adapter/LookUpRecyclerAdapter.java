@@ -24,13 +24,13 @@ import java.util.List;
  * Created by alsdb on 2017-12-20.
  */
 
-public class LookUpRecyclerAdapter extends RecyclerView.Adapter<LookUpViewHolder>{
+public class LookUpRecyclerAdapter extends RecyclerView.Adapter<LookUpViewHolder> {
 
 
     private Activity activity;
     private ArrayList<EntryInfo> entryInfos;
 
-    public LookUpRecyclerAdapter(Activity activity, ArrayList<EntryInfo> entryInfos){
+    public LookUpRecyclerAdapter(Activity activity, ArrayList<EntryInfo> entryInfos) {
         this.activity = activity;
         this.entryInfos = entryInfos;
     }
@@ -46,9 +46,21 @@ public class LookUpRecyclerAdapter extends RecyclerView.Adapter<LookUpViewHolder
         final EntryInfo item = entryInfos.get(position);
 
         switch (item.getState()) {
-            case "-1" : holder.statusView.setImageResource(R.drawable.ic_close); holder.statusView.setContentDescription(activity.getString(R.string.approve_no)); holder.statusView.setColorFilter(ContextCompat.getColor(activity, R.color.no), android.graphics.PorterDuff.Mode.SRC_IN); break;
-            case "0" : holder.statusView.setImageResource(R.drawable.ic_help); holder.statusView.setContentDescription(activity.getString(R.string.not_approved)); holder.statusView.setColorFilter(ContextCompat.getColor(activity, R.color.md_black_1000), android.graphics.PorterDuff.Mode.SRC_IN); break;
-            case "1" : holder.statusView.setImageResource(R.drawable.ic_check); holder.statusView.setContentDescription(activity.getString(R.string.approve_ok)); holder.statusView.setColorFilter(ContextCompat.getColor(activity, R.color.ok), android.graphics.PorterDuff.Mode.SRC_IN); break;
+            case "-1":
+                holder.statusView.setImageResource(R.drawable.ic_close);
+                holder.statusView.setContentDescription(activity.getString(R.string.approve_no));
+                holder.statusView.setColorFilter(ContextCompat.getColor(activity, R.color.no), android.graphics.PorterDuff.Mode.SRC_IN);
+                break;
+            case "0":
+                holder.statusView.setImageResource(R.drawable.ic_help);
+                holder.statusView.setContentDescription(activity.getString(R.string.not_approved));
+                holder.statusView.setColorFilter(ContextCompat.getColor(activity, R.color.md_black_1000), android.graphics.PorterDuff.Mode.SRC_IN);
+                break;
+            case "1":
+                holder.statusView.setImageResource(R.drawable.ic_check);
+                holder.statusView.setContentDescription(activity.getString(R.string.approve_ok));
+                holder.statusView.setColorFilter(ContextCompat.getColor(activity, R.color.ok), android.graphics.PorterDuff.Mode.SRC_IN);
+                break;
         }
 
         holder.date.setText(item.getDate());
