@@ -1,8 +1,6 @@
 package com.dgsw.doorlock.tool.task;
 
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Button;
 
 import com.dgsw.doorlock.data.EntryInfo;
 import com.dgsw.doorlock.data.UserInfo;
@@ -14,9 +12,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import static com.dgsw.doorlock.activity.Main.IP_ADDRESS;

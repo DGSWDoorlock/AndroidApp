@@ -3,6 +3,7 @@ package com.dgsw.doorlock.fragment;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -117,9 +118,9 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
         button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (id == null) return;
+                if (id.isEmpty() || name.isEmpty() || date.isEmpty() || startTime.isEmpty() || endTime.isEmpty()) return;
 
-                button.setEnabled(false);
+                button.setClickable(false);
 
                 EntryInfo info = new EntryInfo(id, name, date, startTime, endTime);
 
@@ -147,13 +148,21 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
                         dateText.setText("날짜 선택");
                         timeStartText.setText("시작 시간 선택");
                         timeEndText.setText("끝 시간 선택");
+                        date = "";
+                        startTime = "";
+                        endTime = "";
                     } else {
                         Snackbar.make(view, "신청 실패", Snackbar.LENGTH_SHORT).show();
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
-                button.setEnabled(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        button.setClickable(true);
+                    }
+                }, 500);
             }
         });
         return view;
