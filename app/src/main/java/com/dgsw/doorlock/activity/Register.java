@@ -39,7 +39,7 @@ public class Register extends AppCompatActivity {
         final EditText comtext = findViewById(R.id.comtext);
         final EditText jobtext = findViewById(R.id.jobtext);
 
-        Button register = findViewById(R.id.register);
+        final Button register = findViewById(R.id.register);
 
         //FIXME !!
         final String phonenum = getPhoneNumber();
@@ -59,7 +59,12 @@ public class Register extends AppCompatActivity {
                     task.execute();
                     try {
                         //TODO TASK RESULT
-                        boolean success = task.get();
+                        if (task.get()) {
+                            Snackbar.make(view, "성공", Snackbar.LENGTH_SHORT).show();
+                            register.setEnabled(false);
+                        } else {
+                            Snackbar.make(view, "실패", Snackbar.LENGTH_SHORT).show();
+                        }
                     } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
