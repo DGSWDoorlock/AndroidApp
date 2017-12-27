@@ -58,7 +58,7 @@ public class Register extends AppCompatActivity {
                     RegisterHTTPTask task = new RegisterHTTPTask(info);
                     task.execute();
                     try {
-                        //TODO TASK
+                        //TODO TASK RESULT
                         boolean success = task.get();
                     } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
@@ -74,13 +74,11 @@ public class Register extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_PHONE_STATE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //TODO
                     recreate();
                     //Toast.makeText(getApplicationContext(), "Granted", Toast.LENGTH_SHORT).show();
-                } else {
-                    //TODO
+                }/* else {
                     //Toast.makeText(getApplicationContext(), "Denied", Toast.LENGTH_SHORT).show();
-                }
+                }*/
                 break;
         }
     }

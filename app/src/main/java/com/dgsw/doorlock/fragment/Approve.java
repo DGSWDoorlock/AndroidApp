@@ -1,12 +1,15 @@
 package com.dgsw.doorlock.fragment;
 
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +35,7 @@ public class Approve extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("출입 승인");
         View view = inflater.inflate(R.layout.fragment_approve, container, false);
-
+        ConstraintLayout constraintLayout = view.findViewById(R.id.layout_no_item);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         ApproveHTTPTask approveHTTPTask = new ApproveHTTPTask();
         approveHTTPTask.execute();
@@ -41,16 +44,22 @@ public class Approve extends Fragment {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+        ArrayList<EntryInfo> entryInfoArrayList = new ArrayList<>();
         for (int i = 0; i < entryInfos.size(); i++) {
-            if (!entryInfos.get(i).getState().equals("0")) {
-                entryInfos.remove(i);
+            Log.d("test"+i,entryInfos.get(i).getState());
+            if (entryInfos.get(i).getState().equals("0")) {
+                entryInfoArrayList.add(entryInfos.get(i));
             }
         }
-        ApproveRecyclerAdapter approveRecyclerAdapter = new ApproveRecyclerAdapter(entryInfos);
-        recyclerView.setAdapter(approveRecyclerAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        if (entryInfoArrayList.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            constraintLayout.setVisibility(View.VISIBLE);
+        } else {
+            ApproveRecyclerAdapter approveRecyclerAdapter = new ApproveRecyclerAdapter(entryInfoArrayList);
+            recyclerView.setAdapter(approveRecyclerAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+        }
         return view;
     }
 }

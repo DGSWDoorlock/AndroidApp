@@ -20,11 +20,10 @@ import java.util.ArrayList;
  * Created by alsdb on 2017-11-11.
  */
 
+
 public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHolder> {
 
     private ArrayList<EntryInfo> entryInfos;
-
-    private static Integer staticY = null;
 
     public ApproveRecyclerAdapter(ArrayList<EntryInfo> entryInfos) {
         this.entryInfos = entryInfos;
@@ -50,24 +49,13 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
             public void onClick(View view) {
                 final View viewImage = viewHolder.okImageView;
 
-
                 final int x = viewHolder.cardView.getRight();
                 final int y = viewHolder.cardView.getBottom();
-
-                if (viewHolder.getAdapterPosition() == 0) {
-                    staticY = viewHolder.cardView.getBottom();
-                }
 
                 final int startRadius = 0;
                 final float endRadius = (float) Math.hypot(viewHolder.cardView.getWidth(), viewHolder.cardView.getHeight());
 
-                Animator animator;
-
-                if (staticY != null) { // 애니매이션이 완전히 채워지지 않은 상태로 끝나는 것을 방지
-                    animator = ViewAnimationUtils.createCircularReveal(viewImage, x, staticY, startRadius, endRadius);
-                } else {
-                    animator = ViewAnimationUtils.createCircularReveal(viewImage, x, y, startRadius, endRadius);
-                }
+                Animator animator = ViewAnimationUtils.createCircularReveal(viewImage, x, (y / (viewHolder.getAdapterPosition() + 1)), startRadius, endRadius);
 
                 viewHolder.okImageView.setVisibility(View.VISIBLE);
                 EntryHTTPTask httpTask = new EntryHTTPTask(1);
@@ -110,19 +98,10 @@ public class ApproveRecyclerAdapter extends RecyclerView.Adapter<ApproveViewHold
                 final int x = viewHolder.cardView.getRight();
                 final int y = viewHolder.cardView.getBottom();
 
-                if (viewHolder.getAdapterPosition() == 0) {
-                    staticY = viewHolder.cardView.getBottom();
-                }
-
                 final int startRadius = 0;
                 final float endRadius = (float) Math.hypot(viewHolder.cardView.getWidth(), viewHolder.cardView.getHeight());
 
-                Animator animator;
-                if (staticY != null) { // 애니매이션이 완전히 채워지지 않은 상태로 끝나는 것을 방지
-                    animator = ViewAnimationUtils.createCircularReveal(viewImage, x, staticY, startRadius, endRadius);
-                } else {
-                    animator = ViewAnimationUtils.createCircularReveal(viewImage, x, y, startRadius, endRadius);
-                }
+                Animator animator = ViewAnimationUtils.createCircularReveal(viewImage, x, (y / (viewHolder.getAdapterPosition() + 1)), startRadius, endRadius);
 
                 viewHolder.noImageView.setVisibility(View.VISIBLE);
                 EntryHTTPTask httpTask = new EntryHTTPTask(-1);

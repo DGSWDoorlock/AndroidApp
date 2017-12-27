@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import static com.dgsw.doorlock.activity.Main.ID;
@@ -37,7 +38,7 @@ public class LootOperateTask extends AsyncTask<Void, Integer, Boolean> {
     protected Boolean doInBackground(Void[] voids) {
         publishProgress(20);
         try {
-            URL Url = new URL("http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.usertable/" + ID);
+            URL Url = new URL("http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.usertable/" + URLEncoder.encode(ID, "UTF-8"));
             HttpURLConnection conn = (HttpURLConnection) Url.openConnection();//연결해줄 Connection
             publishProgress(25);
             conn.setRequestMethod("GET");//POST 형식

@@ -33,14 +33,13 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
     @Override
     protected Boolean doInBackground(EntryInfo[] infos) {
         JSONObject jo = new JSONObject();
-        Log.d("ATAGA", infos[0].getClockStart() + " " + infos[0].getClockEnd());
         try {
             jo.put("userId", infos[0].getId());
             jo.put("name", infos[0].getName());
             jo.put("date", infos[0].getDate() + "T00:00:00+09:00");
-            jo.put("inTime", infos[0].getDate() + "T" + infos[0].getClockStart() + "+09:00");
-            jo.put("outTime", infos[0].getDate() + "T" + infos[0].getClockEnd() + "+09:00");
-            if(state != 0) jo.put("state", Integer.toString(state));
+            jo.put("inTime", "1970-01-01T" + infos[0].getClockStart() + "+09:00");
+            jo.put("outTime", "1970-01-01T" + infos[0].getClockEnd() + "+09:00");
+            jo.put("state", Integer.toString(state));
             publishProgress(10);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -51,7 +50,7 @@ public class EntryHTTPTask extends AsyncTask<EntryInfo, Integer, Boolean> {
         publishProgress(20);
         boolean success = true;
         try {
-            URL Url = new URL(" http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo ");//보낼 주소
+            URL Url = new URL(" http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo");//보낼 주소
             HttpURLConnection conn = (HttpURLConnection) Url.openConnection();//연결해줄 Connection
             publishProgress(25);
             conn.setRequestMethod("POST");//POST 형식

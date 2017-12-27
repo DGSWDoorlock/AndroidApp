@@ -28,7 +28,7 @@ public class LookUpRecyclerAdapter extends RecyclerView.Adapter<LookUpViewHolder
 
 
     private Activity activity;
-    private ArrayList<EntryInfo> entryInfos;
+    private ArrayList<EntryInfo> entryInfos = new ArrayList<>();
 
     public LookUpRecyclerAdapter(Activity activity, ArrayList<EntryInfo> entryInfos) {
         this.activity = activity;

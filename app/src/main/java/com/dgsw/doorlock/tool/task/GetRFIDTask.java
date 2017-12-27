@@ -60,8 +60,10 @@ public class GetRFIDTask extends AsyncTask<EntryInfo, Integer, String> {
                 br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
             String line = br.readLine();
+
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject) jsonParser.parse(line);
+
             RFID = jsonObject.get("rfid").toString();
             br.close();
         } catch (IOException | ParseException e) {

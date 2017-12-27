@@ -1,6 +1,7 @@
 package com.dgsw.doorlock.fragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -24,6 +25,10 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
+
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
 
 public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -53,6 +58,8 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
 
         final Calendar calendar = Calendar.getInstance();
 
+        final KonfettiView konfettiView = view.findViewById(R.id.viewKonfetti);
+
         dateText = view.findViewById(R.id.dateText);
         timeStartText = view.findViewById(R.id.timeStartText);
         timeEndText = view.findViewById(R.id.timeEndText);
@@ -67,7 +74,6 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
                         now.get(Calendar.MONTH),
                         now.get(Calendar.DAY_OF_MONTH)
                 );
-                //FIXME
                 dpd.setYearRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 10);
                 dpd.setVersion(DatePickerDialog.Version.VERSION_2);
                 dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
@@ -106,12 +112,14 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
             }
         });
 
-        Button button = view.findViewById(R.id.button);
+        final Button button = view.findViewById(R.id.button);
 
         button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (id == null) return;
+
+                button.setEnabled(false);
 
                 EntryInfo info = new EntryInfo(id, name, date, startTime, endTime);
 
@@ -120,6 +128,16 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
 
                 try {
                     if (httpTask.get()) {
+                        konfettiView.build()
+                                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE, Color.RED)
+                                .setDirection(0.0, 359.0)
+                                .setSpeed(1f, 10f)
+                                .setFadeOutEnabled(true)
+                                .setTimeToLive(5000L)
+                                .addShapes(Shape.RECT, Shape.CIRCLE)
+                                .addSizes(new Size(12, 5f))
+                                .setPosition(konfettiView.getX() + konfettiView.getWidth() / 2, konfettiView.getY() + konfettiView.getHeight() / 3)
+                                .burst(250);
                         Snackbar.make(view, "신청 성공", Snackbar.LENGTH_SHORT).show();
                         SystemClock.sleep(1000);
                         GetRFIDTask getRFIDTask = new GetRFIDTask(info.getId());
@@ -129,13 +147,13 @@ public class EntryApply extends Fragment implements DatePickerDialog.OnDateSetLi
                         dateText.setText("날짜 선택");
                         timeStartText.setText("시작 시간 선택");
                         timeEndText.setText("끝 시간 선택");
-
                     } else {
                         Snackbar.make(view, "신청 실패", Snackbar.LENGTH_SHORT).show();
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
+                button.setEnabled(true);
             }
         });
         return view;

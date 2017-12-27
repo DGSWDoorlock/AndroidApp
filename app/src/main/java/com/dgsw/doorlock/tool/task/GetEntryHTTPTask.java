@@ -5,17 +5,16 @@ import android.util.Log;
 
 import com.dgsw.doorlock.data.EntryInfo;
 
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import static com.dgsw.doorlock.activity.Main.ID;
@@ -38,7 +37,7 @@ public class GetEntryHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<En
     protected ArrayList<EntryInfo> doInBackground(EntryInfo[] infos) {
         publishProgress(20);
         try {
-            URL Url = new URL("http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo/"+ ID);//보낼 주소
+            URL Url = new URL("http://" + IP_ADDRESS + ":8080/ENT_SYSTEM/webresources/com.dgsw.entinfo");//보낼 주소
             HttpURLConnection conn = (HttpURLConnection) Url.openConnection();//연결해줄 Connection
             publishProgress(25);
             conn.setRequestMethod("GET");//POST 형식
@@ -61,26 +60,32 @@ public class GetEntryHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<En
             }
             publishProgress(70);
             String buf = br.readLine();
-            JSONParser jsonParser = new JSONParser();
-            JSONObject jo = (JSONObject) jsonParser.parse(buf);
-            for (int i = 0; i < jo.size(); i++) {
-                StringBuilder date = new StringBuilder(jo.get("date").toString());
-                date.delete(10, date.length());
+            JSONObject jo;
+            JSONArray ja = new JSONArray(buf);
+            for (int i = 0; i < ja.length(); i++) {
+                jo = ja.getJSONObject(i);
+                if(jo.get("userId").toString().equals(ID)) {
+                    StringBuilder date = new StringBuilder(jo.get("date").toString());
+                    date.delete(10, date.length());
 
-                StringBuilder in_Time = new StringBuilder(jo.get("inTime").toString());
-                in_Time.delete(0, 11);
-                in_Time.delete(8, in_Time.length());
+                    StringBuilder in_Time = new StringBuilder(jo.get("inTime").toString());
+                    in_Time.delete(0, 11);
+                    in_Time.delete(8, in_Time.length());
 
-                StringBuilder out_Time = new StringBuilder(jo.get("outTime").toString());
-                out_Time.delete(0, 11);
-                out_Time.delete(8, out_Time.length());
+                    StringBuilder out_Time = new StringBuilder(jo.get("outTime").toString());
+                    out_Time.delete(0, 11);
+                    out_Time.delete(8, out_Time.length());
 
-                entryInfos.add(new EntryInfo(jo.get("userId").toString(), jo.get("name").toString(), date.toString(), in_Time.toString(), out_Time.toString(), jo.get("state").toString()));
+                    entryInfos.add(new EntryInfo(jo.get("userId").toString(), jo.get("name").toString(), date.toString(), in_Time.toString(), out_Time.toString(), jo.get("state").toString()));
+                    Log.d("ATAGA", entryInfos.get(entryInfos.size()-1).toString() + " AABB");//TODO
+                }
             }
 
-        } catch (IOException | ParseException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
+
+        Log.d("TAG_size", entryInfos.size()+" AACC");
         return entryInfos;
     }
 

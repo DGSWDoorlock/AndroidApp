@@ -71,7 +71,7 @@ public class ApproveHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<Ent
                 StringBuilder out_Time = new StringBuilder(jo.get("outTime").toString());
                 out_Time.delete(0, 11);
                 out_Time.delete(8, out_Time.length());
-
+                Log.wtf("AAAA!!!!", jo.get("state").toString());
                 entryInfos.add(new EntryInfo(jo.get("userId").toString(), jo.get("name").toString(), date.toString(), in_Time.toString(), out_Time.toString(), jo.get("state").toString()));
             }
 

@@ -51,4 +51,16 @@ public class EntryInfo {
     }
 
     public String getState() { return state; }
+
+    @Override
+    public String toString() {
+        return "EntryInfo{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", date='" + date + '\'' +
+                ", clockStart='" + clockStart + '\'' +
+                ", clockEnd='" + clockEnd + '\'' +
+                ", state='" + state + '\'' +
+                '}';
+    }
 }

@@ -42,7 +42,7 @@ import java.util.concurrent.ExecutionException;
 public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String IP_ADDRESS = "192.168.0.21";
+    public static final String IP_ADDRESS = "10.80.162.181";
 
     public static String ID, NAME;
 

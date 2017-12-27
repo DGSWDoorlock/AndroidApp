@@ -68,32 +68,32 @@ public class NFCListHTTPTask extends AsyncTask<EntryInfo, Integer, ArrayList<NFC
             String buf = br.readLine();
             org.json.JSONObject jo;
             org.json.JSONArray ja = new org.json.JSONArray(buf);
-            Date current=new Date();
-            Date outCompare=null,inCompare=null;
-            SimpleDateFormat form=new SimpleDateFormat("yyyy-MM-dd-kk:mm:ss");
-            StringBuilder outString=null,inString=null,dayString=null;
+            Date current = new Date();
+            Date outCompare = null, inCompare = null;
+            SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd-kk:mm:ss");
+            StringBuilder outString, inString, dayString;
             for (int i = 0; i < ja.length(); i++) {
                 jo = ja.getJSONObject(i);
-                if("1".equals(jo.get("state").toString())&&id.equals(jo.get("userId").toString())) {
-                    outString=new StringBuilder(jo.get("outTime").toString().replace('T','-'));
-                    outString.delete(19,outString.length());
-                    outString.delete(0,10);
+                if ("1".equals(jo.get("state").toString()) && id.equals(jo.get("userId").toString())) {
+                    outString = new StringBuilder(jo.get("outTime").toString().replace('T', '-'));
+                    outString.delete(19, outString.length());
+                    outString.delete(0, 10);
 
-                    inString=new StringBuilder(jo.get("inTime").toString().replace('T','-'));
-                    inString.delete(19,inString.length());
-                    inString.delete(0,10);
+                    inString = new StringBuilder(jo.get("inTime").toString().replace('T', '-'));
+                    inString.delete(19, inString.length());
+                    inString.delete(0, 10);
 
-                    dayString=new StringBuilder(jo.get("date").toString());
-                    dayString.delete(10,dayString.length());
+                    dayString = new StringBuilder(jo.get("date").toString());
+                    dayString.delete(10, dayString.length());
 
                     try {
-                        outCompare=form.parse(dayString.toString()+outString.toString());
-                        inCompare=form.parse(dayString.toString()+inString.toString());
+                        outCompare = form.parse(dayString.toString() + outString.toString());
+                        inCompare = form.parse(dayString.toString() + inString.toString());
                     } catch (ParseException e) {
-                        Log.e("Pares",outString.toString()+" "+inString.toString());
+                        Log.e("Pares", outString.toString() + " " + inString.toString());
                     }
 
-                    if(outCompare.compareTo(current)>=0&&inCompare.compareTo(current)<=0) {
+                    if (outCompare.compareTo(current) >= 0 && inCompare.compareTo(current) <= 0) {
                         StringBuilder date = new StringBuilder(jo.get("date").toString());
                         date.delete(10, date.length());
 
